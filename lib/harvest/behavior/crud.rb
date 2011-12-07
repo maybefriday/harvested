@@ -3,8 +3,10 @@ module Harvest
     module Crud
       # Retrieves all items
       # @return [Array<Harvest::BaseModel>] an array of models depending on where you're calling it from (e.g. [Harvest::Client] from Harvest::Base#clients)
-      def all(user = nil)
-        response = request(:get, credentials, api_model.api_path, :query => of_user_query(user))
+      def all(user = nil, options = {})
+        query = of_user_query(user)
+        #query[:updated_since] = options[:since]
+        response = request(:get, credentials, api_model.api_path, :query => query)
         api_model.parse(response.parsed_response)
       end
       
